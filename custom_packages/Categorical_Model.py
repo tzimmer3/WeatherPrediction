@@ -26,8 +26,17 @@ def categorical_accuracy_table(target, prediction):
 # Categorical Feature Importance
 ########################################
 def feature_importance(model, column_names):
+    """
+    Variable Importance Bar Graph
 
-    # Variable Importance Bar Graph
+    Inputs:
+    Model - Fitted model
+    Column Names - List of Column Names from X dataset.
+
+    Outputs:
+    Feature Importance Bar Chart
+    """
+   
 
     feature_importance=pd.DataFrame({'xgboost_model':model.feature_importances_},index=column_names)
     feature_importance.sort_values(by='xgboost_model',ascending=True,inplace=True)

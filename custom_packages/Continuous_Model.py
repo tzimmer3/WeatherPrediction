@@ -3,6 +3,7 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score, mean_squared_error
+from statsmodels.nonparametric.smoothers_lowess import lowess
 
 
 ########################################
@@ -11,7 +12,17 @@ from sklearn.metrics import r2_score, mean_squared_error
 
 # X_test, y_test[target],y_test['Prediction']
 def accuracy_table(df, target, prediction):
-    # Global model accuracy metrics
+    """
+    Global model accuracy metrics.
+    
+    Inputs:
+    DF - y dataset with predictions and actual value.
+    Target - Name of target variable column.
+    Prediction - Name of column with predictions.
+
+    Outputs:
+    Table defining accuracy metrics for continuous models.
+    """
     measures = ['MSE','RMSE','R2', 'Adj R2']
 
     n = len(df)
@@ -30,7 +41,7 @@ def accuracy_table(df, target, prediction):
 ########################################
 # Residuals vs Fitted Plot
 ########################################
-def residuals_vs_fitted(residuals, prediction):
+#def residuals_vs_fitted(residuals, prediction):
     smoothed = lowess(residuals,prediction)
     top3 = abs(residuals).sort_values(ascending = False)[:3]
 
@@ -52,3 +63,21 @@ def residuals_vs_fitted(residuals, prediction):
     # In this case, you only learn what the predictions look like to potentially see outliers, or trends.
     # Heteroskedasticity is not an assumption to check
     # Does not show how a particular observation fell in the tree.
+
+def residuals_vs_fitted(residuals, prediction):
+    smoothed = lowess(residuals,prediction)
+    top3 = abs(residuals).sort_values(ascending = False)[:3]
+
+    plt.rcParams.update({'font.size': 16})
+    plt.rcParams["figure.figsize"] = (8,7)
+    fig, ax = plt.subplots()
+    ax.scatter(prediction, residuals, edgecolors = 'k', facecolors = 'none')
+    ax.plot(smoothed[:,0],smoothed[:,1],color = 'r')
+    ax.set_ylabel('Residuals')
+    ax.set_xlabel('Fitted Values')
+    ax.set_title('Residuals vs. Fitted')
+    ax.plot([min(prediction),max(prediction)],[0,0],color = 'k',linestyle = ':', alpha = .3)
+
+    #Annotate the max and min values
+    for i in top3.index:
+        ax.annotate(i,xy=(prediction[i],residuals[i]))
