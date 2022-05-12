@@ -6,7 +6,7 @@ Predict the weather so I know when to head to the beach.
 
 ## Methodology (Data)
 
-For a year, give me the second table after the graphs for months:
+For a year, scrape the second table after the graphs for months:
 	February - September
 
 Grabbed the whole year (minus January) for 2020 so that an accurate prediction can occur for 2021
