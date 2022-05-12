@@ -42,7 +42,19 @@ def acf_plot(data):
 
 
 #Define seasonplot function for Python using cufflinks and plotly
-def season_plot(data, x_period):
+def seasonal_plot(data, period="Week"):
+    """
+    Define Seasonality plot.
+    Interpret: 
+
+    Inputs:
+    Data - Data to analyze with the seasonality plot.
+    Period - Aggregation level of the data.  Week, Month, or Quarter
+        DEFAULT VALUE: Week
+
+    Outputs:
+    Seasonality plot.
+    """
     traces = []
 
     colors = cm.rainbow(np.linspace(0, 1, data.index.year.nunique()), bytes = True)
